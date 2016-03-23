@@ -43,7 +43,7 @@ ifeq ($(BR2_PACKAGE_RPI_FIRMWARE_TEDPI_1B),y)
 define RPI_FIRMWARE_BUILD_CONFIG
 	$(RPI_FIRMWARE_BUILD_CONFIG_HEAD)
 	(\
-		echo "device_tree=bcm2708-rpi-b-plus.dtb"; \
+		echo "device_tree=bcm2708-rpi-b.dtb"; \
 		echo "dtparam=i2c_arm=on,i2c_arm_baudrate=200000"; \
 		echo "dtparam=spi=on"; \
 		echo "dtparam=watchdog=on"; \
@@ -60,7 +60,7 @@ endef
 
 ifeq ($(BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTB_OVERLAYS),y)
 define RPI_FIRMWARE_INSTALL_DTB
-	$(INSTALL) -D -m 0644 $(@D)/boot/bcm2708-rpi-b-plus.dtb $(BINARIES_DIR)/rpi-firmware/bcm2708-rpi-b-plus.dtb
+	$(INSTALL) -D -m 0644 $(@D)/boot/bcm2708-rpi-b.dtb $(BINARIES_DIR)/rpi-firmware/bcm2708-rpi-b.dtb
 endef
 endif
 

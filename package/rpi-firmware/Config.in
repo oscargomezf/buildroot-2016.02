@@ -14,14 +14,14 @@ choice
 	default BR2_PACKAGE_RPI_FIRMWARE_TEDPI_2B
 	help
 	  There are three different tedpi models:
-	    - tedpi-1b-plus: based on raspberry pi B+ rev2.1 - Code: 0x000e;
-	    - tedpi-cm: based on raspberry pi Compute module - Code: 0x0011;
-	    - tedpi-2b: based on raspberry pi 2B - Code: 0xa01041;
+	    - tedpi-1b: based on raspberry pi B+ rev2.1 - Code: 0x000e.
+	    - tedpi-cm: based on raspberry pi Compute module - Code: 0x0011.
+	    - tedpi-2b: based on raspberry pi 2B - Code: 0xa01041.
 
 config BR2_PACKAGE_RPI_FIRMWARE_TEDPI_1B
-	bool "tedpi-1b-plus"
+	bool "tedpi-1b"
 	help
-	  tedpi-1b-plus: based on raspberry pi B+ rev2.1 - Code: 0x000e.
+	  tedpi-1b: based on raspberry pi B+ rev2.1 - Code: 0x000e.
 
 config BR2_PACKAGE_RPI_FIRMWARE_TEDPI_CM
 	bool "tedpi-cm"
