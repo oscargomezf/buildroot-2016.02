@@ -10,6 +10,46 @@ config BR2_PACKAGE_RPI_FIRMWARE
 if BR2_PACKAGE_RPI_FIRMWARE
 
 choice
+	bool "tedpi model"
+	default BR2_PACKAGE_RPI_FIRMWARE_TEDPI_2B
+	help
+	  There are three different tedpi models:
+	    - tedpi-1b-plus: based on raspberry pi B+ rev2.1 - Code: 0x000e;
+	    - tedpi-cm: based on raspberry pi Compute module - Code: 0x0011;
+	    - tedpi-2b: based on raspberry pi 2B - Code: 0xa01041;
+
+config BR2_PACKAGE_RPI_FIRMWARE_TEDPI_1B
+	bool "tedpi-1b-plus"
+	help
+	  tedpi-1b-plus: based on raspberry pi B+ rev2.1 - Code: 0x000e.
+
+config BR2_PACKAGE_RPI_FIRMWARE_TEDPI_CM
+	bool "tedpi-cm"
+	help
+	  tedpi-cm: based on raspberry pi Compute module - Code: 0x0011.
+
+config BR2_PACKAGE_RPI_FIRMWARE_TEDPI_2B
+	bool "tedpi-2b"
+	help
+	  tedpi-2b: based on raspberry pi 2B - Code: 0xa01041.
+
+endchoice
+
+if !BR2_PACKAGE_RPI_FIRMWARE_TEDPI_CM
+config BR2_PACKAGE_RPI_FIRMWARE_TEDPI_MAC
+        string "mac address"
+        default "B8:27:EB:59:EB:EB:68"
+        help
+         Select the mac addres for your raspberry pi model
+endif
+
+config BR2_PACKAGE_RPI_FIRMWARE_BOOT
+	string
+	default ""      if BR2_PACKAGE_RPI_FIRMWARE_DEFAULT
+	default "_x"    if BR2_PACKAGE_RPI_FIRMWARE_X
+	default "_cd"   if BR2_PACKAGE_RPI_FIRMWARE_CD
+
+choice
 	bool "Firmware to boot"
 	default BR2_PACKAGE_RPI_FIRMWARE_DEFAULT
 	help
