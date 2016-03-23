@@ -1,0 +1,47 @@
+config BR2_PACKAGE_FLYCAPTURE2_ARM_LIB
+	bool "Fly Capture Library for arm platform"
+	depends on BR2_ARM_EABIHF
+	select BR2_PACKAGE_LIBRAW1394
+	select BR2_PACKAGE_LIBUSB
+	help
+	  Libraries required to develop your application on arm
+	  platform using the FlyCapture2 SDK on Point Grey USB 2.0
+	  cameras or Point Grey USB 3.0 cameras.
+          
+	  https://www.ptgrey.com/
+
+comment "flycapture2-arm-lib  needs an ARM EABIHF platform"
+	depends on !BR2_ARM_EABIHF
+
+if BR2_PACKAGE_FLYCAPTURE2_ARM_LIB
+
+config BR2_PACKAGE_USERNAME_FLYCAPTURE2
+	string "username"
+	default "tedpi"
+	help
+	 Select the username to be added to the group pgrimaging
+
+config BR2_PACKAGE_FLYCAPTURE_ENABLE_PASSWORD
+	bool "Enalbe user password"
+	help
+	 Enable this option to add a password to the username
+
+if BR2_PACKAGE_FLYCAPTURE_ENABLE_PASSWORD
+
+config BR2_PACKAGE_PASSWORD_FLYCAPTURE2
+        string "password"
+        default "tedpi"
+        help
+         Select the password to be added to the username
+
+endif
+
+config BR2_PACKAGE_FLYCAPTURE2_ARM_SNAPSHOT
+	bool "Snapshot Fly Capture for arm platform"
+	help
+	  Program to take a snapshot with the FlyCapture2 SDK
+	  on Point Grey USB 2.0 cameras or Point Grey USB 3.0
+	  cameras.
+          
+endif
+

@@ -327,6 +327,7 @@ endmenu
 menu "Hardware handling"
 menu "Raspberry Pi"
 	source "package/wiringpi/Config.in"
+	source "package/flycapture2-arm-lib/Config.in"
 endmenu
 menu "Firmware"
 	source "package/am33x-cm3/Config.in"
