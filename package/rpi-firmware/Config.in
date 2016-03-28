@@ -38,7 +38,7 @@ endchoice
 if !BR2_PACKAGE_RPI_FIRMWARE_TEDPI_CM
 config BR2_PACKAGE_RPI_FIRMWARE_TEDPI_MAC
         string "mac address"
-        default "B8:27:EB:59:EB:EB:68"
+        default "B8:27:EB:59:EB:68"
         help
          Select the mac addres for your raspberry pi model
 endif
