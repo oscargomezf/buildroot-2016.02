@@ -39,13 +39,11 @@ rm -rf "${GENIMAGE_TMP}"
 	echo "dtparam=i2c_arm=on,i2c_arm_baudrate=200000"; \
 	echo "dtparam=spi=on"; \
 	echo "dtparam=watchdog=on"; \
-	echo ""; \
  ) > ${BINARIES_DIR}/rpi-firmware/config.txt
 
 # Rebuild cmdline.txt
 (\
 	echo "console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait"; \
-	echo ""; \
 ) > ${BINARIES_DIR}/rpi-firmware/cmdline.txt
 
 # Rebuild /etc/fstab
@@ -53,7 +51,6 @@ grep -r "/dev/mmcblk0p1" ${TARGET_DIR}/etc/fstab 1> /dev/null
 if [ "$?" = "1" ]; then
 	(\
 		echo "/dev/mmcblk0p1  /boot           vfat    defaults        0       2"; \
-		echo ""; \
 	) >> ${TARGET_DIR}/etc/fstab
 	mkdir -p ${TARGET_DIR}/boot
 fi
@@ -61,8 +58,7 @@ fi
 # Build /etc/modules
 (\
 	echo "i2c-dev"; \
-	echo ""; \
-) > "${TARGET_DIR}/etc/modules"
+) > ${TARGET_DIR}/etc/modules
 
 chmod 644 ${TARGET_DIR}/etc/modules
 
