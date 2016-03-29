@@ -93,11 +93,6 @@ chmod 644 ${TARGET_DIR}/etc/modules
 
 chmod 755 ${TARGET_DIR}/etc/init.d/S18loadmod
 
-# Delete /etc/init.d/S40network
-if [ -f ${TARGET_DIR}/etc/init.d/S40network ]; then
-	rm -rf  ${TARGET_DIR}/etc/init.d/S40network
-fi
-
 genimage                           \
 	--rootpath "${TARGET_DIR}"     \
 	--tmppath "${GENIMAGE_TMP}"    \
