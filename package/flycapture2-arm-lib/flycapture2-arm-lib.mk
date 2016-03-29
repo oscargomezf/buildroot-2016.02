@@ -38,17 +38,17 @@ endif
 define FLYCAPTURE2_ARM_LIB_INSTALL_TARGET_CMDS
 	# Install libs
 	$(INSTALL) -m 0755 -D $(@D)/lib/libflycapture.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/libflycapture.so $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/libflycapture.so.2 $(TARGET_DIR)/lib/; \
+	ln -sf libflycapture.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapture.so.2; \
+	ln -sf libflycapture.so.2 $(TARGET_DIR)/lib/libflycapture.so; \
 	$(INSTALL) -m 0755 -D $(@D)/lib/libflycapturegui.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/libflycapturegui.so $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/libflycapturegui.so.2 $(TARGET_DIR)/lib/; \
+	ln -sf libflycapturegui.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapturegui.so.2; \
+	ln -sf libflycapturegui.so.2 $(TARGET_DIR)/lib/libflycapturegui.so; \
 	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapture-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapture-c.so $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapture-c.so.2 $(TARGET_DIR)/lib/; \
+	ln -sf libflycapture-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapture-c.so.2; \
+	ln -sf libflycapture-c.so.2 $(TARGET_DIR)/lib/libflycapture-c.so; \
 	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapturegui-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapturegui-c.so $(TARGET_DIR)/lib/; \
-	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapturegui-c.so.2 $(TARGET_DIR)/lib/;
+	ln -sf libflycapturegui-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapturegui-c.so.2; \
+	ln -sf libflycapturegui-c.so.2 $(TARGET_DIR)/lib/libflycapturegui-c.so; \
 	# Install test program
 	$(INSTALL) -m 0755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot;
 	# Create udev rules file
