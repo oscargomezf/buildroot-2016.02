@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FLYCAPTURE2_ARM_LIB_VERSION = 13
+FLYCAPTURE2_ARM_LIB_VERSION = 22
 FLYCAPTURE2_ARM_LIB_SITE = http://svn.tedesys.net/flycapture2_armhf/trunk
 FLYCAPTURE2_ARM_LIB_SITE_METHOD = svn
 FLYCAPTURE2_ARM_LIB_INSTALL_STAGING = NO
@@ -17,7 +17,8 @@ FLYCAPTURE2_LIB_VERSION = 2.9.3.15
 
 ifeq ($(BR2_PACKAGE_FLYCAPTURE2_ARM_SNAPSHOT),y)
 define FLYCAPTURE2_ARM_LIB_BUILD_CMDS
-	$(MAKE) CC=$(TARGET_CC) LD=$(TARGET_LD) -C $(@D)/src/snapshot all
+#	$(MAKE) CC=$(TARGET_CC) LD=$(TARGET_LD) -C $(@D)/src/snapshot all
+	$(TARGET_MAKE_ENV) $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/src/snapshot all
 endef
 endif
 
