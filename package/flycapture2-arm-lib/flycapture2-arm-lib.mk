@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FLYCAPTURE2_ARM_LIB_VERSION = 23
+FLYCAPTURE2_ARM_LIB_VERSION = 24
 FLYCAPTURE2_ARM_LIB_SITE = http://svn.tedesys.net/flycapture2_armhf/trunk
 FLYCAPTURE2_ARM_LIB_SITE_METHOD = svn
 FLYCAPTURE2_ARM_LIB_INSTALL_STAGING = NO
