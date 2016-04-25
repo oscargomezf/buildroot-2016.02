@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FLYCAPTURE2_ARM_LIB_VERSION = 25
+FLYCAPTURE2_ARM_LIB_VERSION = 28
 FLYCAPTURE2_ARM_LIB_SITE = http://svn.tedesys.net/flycapture2_armhf/trunk
 FLYCAPTURE2_ARM_LIB_SITE_METHOD = svn
 FLYCAPTURE2_ARM_LIB_INSTALL_STAGING = NO
@@ -17,7 +17,6 @@ FLYCAPTURE2_LIB_VERSION = 2.9.3.15
 
 ifeq ($(BR2_PACKAGE_FLYCAPTURE2_ARM_SNAPSHOT),y)
 define FLYCAPTURE2_ARM_LIB_BUILD_CMDS
-#	$(MAKE) CC=$(TARGET_CC) LD=$(TARGET_LD) -C $(@D)/src/snapshot all
 	$(TARGET_MAKE_ENV) $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/src/snapshot all
 endef
 endif
@@ -50,8 +49,11 @@ define FLYCAPTURE2_ARM_LIB_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapturegui-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/; \
 	ln -sf libflycapturegui-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapturegui-c.so.2; \
 	ln -sf libflycapturegui-c.so.2 $(TARGET_DIR)/lib/libflycapturegui-c.so; \
+	# Create $HOME/$USER/snapshot folder
+	mkdir -p $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot
 	# Install test program
-	$(INSTALL) -m 0755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot;
+	$(INSTALL) -m 0755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/snapshot;
+	$(INSTALL) -m 0744 -D $(@D)/src/snapshot/readme.txt $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/readme.txt;
 	# Create udev rules file
 	(\
 		echo "ATTRS{idVendor}==\"1e10\", ATTRS{idProduct}==\"2000\", MODE=\"0664\", GROUP=\"${GROUP_FLYCAPTURE2}\""; \
