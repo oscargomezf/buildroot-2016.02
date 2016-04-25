@@ -33,7 +33,7 @@ TEDPI_MAC=B8:27:EB:59:EB:62
 
 # Rebuild cmdline.txt
 (\
-	echo "console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait smsc95xx.macaddr=${TEDPI_MAC}"; \
+	echo "console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait smsc95xx.macaddr=${TEDPI_MAC} usbcore.usbfs_memory_mb=256"; \
 ) > ${BINARIES_DIR}/rpi-firmware/cmdline.txt
 
 # Rebuild /etc/fstab
