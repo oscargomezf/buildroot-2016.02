@@ -1,10 +1,25 @@
 #!/bin/sh
 
 BOARD_DIR="$(dirname $0)"
-BOARD_NAME="$(basename ${BOARD_DIR})"
+case "${2}" in
+	"tedpi-cm")
+		BOARD_NAME="tedpi-cm"
+		;;
+	"tedpi-1b")
+		BOARD_NAME="tedpi-1b"
+		;;
+	"tedpi-2b"|"tedpi-2b-flea3")
+		BOARD_NAME="tedpi-2b"
+		;;
+	"tedpi-3b"|"tedpi-3b-flea3")
+		BOARD_NAME="tedpi-3b"
+		;;
+	*)
+		exit 1
+		;;
+esac
 GENIMAGE_CFG="${BOARD_DIR}/genimage-${BOARD_NAME}.cfg"
 GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-TEDPI_MAC=B8:27:EB:59:EB:63
 
 # Mark the kernel as DT-enabled
 mkdir -p "${BINARIES_DIR}/kernel-marked"
