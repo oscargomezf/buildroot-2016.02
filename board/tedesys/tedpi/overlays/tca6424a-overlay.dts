@@ -1,0 +1,41 @@
+// Definitions for TCA6424A IO Expander from Texas Instruments
+/dts-v1/;
+/plugin/;
+/ {
+	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+
+	fragment@0 {
+		target = <&i2c1>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target = <&gpio>;
+		__overlay__ {
+			tca6424a_pins: tca6424a_pins {
+				brcm,pins = <4>;
+				brcm,function = <0>;
+			};
+		};
+	};
+	
+	fragment@2 {
+		target = <&i2c1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			
+			tca6424@22 {
+				compatible = "ti,tca6424";
+				reg = <0x22>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&tca6424a_pins>;
+				interrupt-parent = <&gpio>;
+				interrupts = <4 2>; //IRQ_TYPE_EDGE_FALLING
+				reset-gpios = <&gpio 17 0>; //GPIO_ACTIVE_HIGH
+			};
+		};
+	};
+};

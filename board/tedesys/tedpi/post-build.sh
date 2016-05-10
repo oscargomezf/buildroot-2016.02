@@ -11,6 +11,14 @@ case "${2}" in
 		TEDPI_MAC=B8:27:EB:59:EB:63
 		;;
 esac
+
+# Install overlays from tedesys
+PWD=$(pwd)
+for ovldtb in  ${PWD}/board/tedesys/tedpi/overlays/*.dtb; do
+	cp ${ovldtb} ${BINARIES_DIR}/rpi-firmware/overlays/ || exit 1;
+done
+
+
 # Rebuild config.txt file
 (\
 	echo "# Please note that this is only a sample, we recommend you to change it to fit"; \
@@ -45,9 +53,14 @@ esac
 		"tedpi-2b"|"tedpi-2b-flea3")
 			echo "device_tree=bcm2709-rpi-2-b.dtb"; \
 			;;
-		"tedpi-3b"|"tedpi-3b-flea3")
+		"tedpi-3b")
 			echo "device_tree=bcm2710-rpi-3-b.dtb"; \
 			echo "dtoverlay=pi3-disable-bt"; \
+			;;
+		"tedpi-3b-flea3")
+			echo "device_tree=bcm2710-rpi-3-b.dtb"; \
+			echo "dtoverlay=pi3-disable-bt"; \
+			echo "dtoverlay=tca6424a"; \
 			;;
 		*)
 			exit 1
