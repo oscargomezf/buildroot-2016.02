@@ -50,7 +50,7 @@ define FLYCAPTURE2_ARM_LIB_INSTALL_TARGET_CMDS
 	ln -sf libflycapturegui-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapturegui-c.so.2; \
 	ln -sf libflycapturegui-c.so.2 $(TARGET_DIR)/lib/libflycapturegui-c.so; \
 	# Create $HOME/$USER/snapshot folder
-	mkdir -p $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot
+	mkdir -p $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot;
 	# Install test program
 	$(INSTALL) -m 0755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/snapshot;
 	$(INSTALL) -m 0744 -D $(@D)/src/snapshot/readme.txt $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/readme.txt;

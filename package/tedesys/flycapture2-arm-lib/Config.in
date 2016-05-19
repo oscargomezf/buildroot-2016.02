@@ -44,4 +44,3 @@ config BR2_PACKAGE_FLYCAPTURE2_ARM_SNAPSHOT
 	  cameras.
           
 endif
-
