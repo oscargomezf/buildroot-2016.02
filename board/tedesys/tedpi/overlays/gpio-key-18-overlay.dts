@@ -1,0 +1,22 @@
+// Definitions for test the gpio 18 as a button
+/dts-v1/;
+/plugin/;
+/ {
+	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+   
+	fragment@0 {
+		target-path = "/soc";
+		__overlay__ {
+			keypad: keypad {
+				compatible = "gpio-keys";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				button@18 {
+					label = "Test BTN0";
+					linux,code = <0x100>;
+					gpios = <&gpio 18 0>;
+				};
+			};
+		};
+	};
+};
