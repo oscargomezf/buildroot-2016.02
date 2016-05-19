@@ -327,6 +327,7 @@ endmenu
 menu "Hardware handling"
 
 menu "Tedesys"
+        source "package/tedesys/gpio-control/Config.in"
         source "package/tedesys/wiringpi/Config.in"
         source "package/tedesys/flycapture2-arm-lib/Config.in"
 endmenu

@@ -1,0 +1,7 @@
+config BR2_PACKAGE_GPIO_CONTROL
+	bool "gpio-control"
+	help
+	  This application is an usuful tool to manage gpios.
+	  You can export, unexport, read and write gpios.
+          
+	  https://www.tedesys.com
