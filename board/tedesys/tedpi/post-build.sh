@@ -45,19 +45,35 @@ done
 	echo "#${2}"; \
 	case "${2}" in
 		"tedpi-cm")
+			echo "force_turbo=1"
+			echo "arm_freq=700"
+			echo "core_freq=250"
 			echo "device_tree=bcm2708-rpi-cm.dtb"; \
 			;;
 		"tedpi-1b")
+			echo "force_turbo=1"
+			echo "arm_freq=700"
+			echo "core_freq=250"
 			echo "device_tree=bcm2708-rpi-b.dtb"; \
 			;;
 		"tedpi-2b"|"tedpi-2b-flea3")
+			echo "force_turbo=1"
+			echo "arm_freq=900"
+			echo "core_freq=250"
 			echo "device_tree=bcm2709-rpi-2-b.dtb"; \
+			echo "dtoverlay=tca6424a"; \
 			;;
 		"tedpi-3b")
+			echo "force_turbo=1"
+			echo "arm_freq=1200"
+			echo "core_freq=250"
 			echo "device_tree=bcm2710-rpi-3-b.dtb"; \
 			echo "dtoverlay=pi3-disable-bt"; \
 			;;
 		"tedpi-3b-flea3")
+			echo "force_turbo=1"
+			echo "arm_freq=1200"
+			echo "core_freq=250"
 			echo "device_tree=bcm2710-rpi-3-b.dtb"; \
 			echo "dtoverlay=pi3-disable-bt"; \
 			echo "dtoverlay=tca6424a"; \

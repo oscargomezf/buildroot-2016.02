@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-GPIO_CONTROL_VERSION = 4
+GPIO_CONTROL_VERSION = 5
 GPIO_CONTROL_SITE = http://svn.tedesys.net/gpio_control/trunk
 GPIO_CONTROL_SITE_METHOD = svn
 GPIO_CONTROL_INSTALL_STAGING = NO
