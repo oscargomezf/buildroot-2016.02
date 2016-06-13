@@ -1,3 +1,10 @@
+config BR2_PACKAGE_TEDGPIO_LIB
+	bool "tedgpio-lib"
+	help
+	  Library to manage gpio on linux platform.
+
+if BR2_PACKAGE_TEDGPIO_LIB
+
 config BR2_PACKAGE_GPIO_CONTROL
 	bool "gpio-control"
 	help
@@ -5,3 +12,5 @@ config BR2_PACKAGE_GPIO_CONTROL
 	  You can export, unexport, read and write gpios.
           
 	  https://www.tedesys.com
+
+endif
