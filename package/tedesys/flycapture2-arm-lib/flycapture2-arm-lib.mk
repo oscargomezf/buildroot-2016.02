@@ -4,10 +4,10 @@
 #
 ################################################################################
 
-FLYCAPTURE2_ARM_LIB_VERSION = 30
+FLYCAPTURE2_ARM_LIB_VERSION = 37
 FLYCAPTURE2_ARM_LIB_SITE = http://svn.tedesys.net/flycapture2_armhf/trunk
 FLYCAPTURE2_ARM_LIB_SITE_METHOD = svn
-FLYCAPTURE2_ARM_LIB_INSTALL_STAGING = NO
+FLYCAPTURE2_ARM_LIB_INSTALL_STAGING = YES
 FLYCAPTURE2_ARM_LIB_INSTALL_TARGET = YES
 FLYCAPTURE2_ARM_LIB_LICENSE = GPLv2+
 FLYCAPTURE2_ARM_LIB_LICENSE_FILES = COPYING
@@ -17,7 +17,16 @@ FLYCAPTURE2_LIB_VERSION = 2.9.3.15
 
 ifeq ($(BR2_PACKAGE_FLYCAPTURE2_ARM_SNAPSHOT),y)
 define FLYCAPTURE2_ARM_LIB_BUILD_CMDS
-	$(TARGET_MAKE_ENV) $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/src/snapshot all
+	# Build snapshot application
+	$(TARGET_MAKE_ENV) $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/src/snapshot all;
+endef
+define FLYCAPTURE2_ARM_LIB_INSTALL_TARGET_CMDS
+	# Create /home/$(USERNAME_FLYCAPTURE2)/snapshot folder
+        mkdir -p $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot;
+        # Install snapshot program in /usr/sbin
+        $(INSTALL) -m 4755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/usr/sbin/snapshot;
+        #$(INSTALL) -m 0755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/snapshot; \
+        #$(INSTALL) -m 0744 -D $(@D)/src/snapshot/readme.txt $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/readme.txt;
 endef
 endif
 
@@ -27,15 +36,15 @@ PASSWORD_FLYCAPTURE2 = $(call qstrip,$(BR2_PACKAGE_PASSWORD_FLYCAPTURE2))
 #Add Point Grey User
 ifeq ($(BR2_PACKAGE_FLYCAPTURE_ENABLE_PASSWORD),y)
 define FLYCAPTURE2_ARM_LIB_USERS
-	$(USERNAME_FLYCAPTURE2) -1 $(GROUP_FLYCAPTURE2) -1 =$(PASSWORD_FLYCAPTURE2) /home/$(USERNAME_FLYCAPTURE2) /bin/sh $(GROUP_FLYCAPTURE2) Point Grey user
+	$(USERNAME_FLYCAPTURE2) -1 $(USERNAME_FLYCAPTURE2) -1 =$(PASSWORD_FLYCAPTURE2) /home/$(USERNAME_FLYCAPTURE2) /bin/sh $(USERNAME_FLYCAPTURE2),$(GROUP_FLYCAPTURE2) Point Grey user;
 endef
 else
 define FLYCAPTURE2_ARM_LIB_USERS
-	$(USERNAME_FLYCAPTURE2) -1 $(GROUP_FLYCAPTURE2) -1 = /home/$(USERNAME_FLYCAPTURE2) /bin/sh $(GROUP_FLYCAPTURE2) Point Grey user
+	$(USERNAME_FLYCAPTURE2) -1 $(USERNAME_FLYCAPTURE2) -1 = /home/$(USERNAME_FLYCAPTURE2) /bin/sh $(USERNAME_FLYCAPTURE2),$(GROUP_FLYCAPTURE2) Point Grey user;
 endef
 endif
 
-define FLYCAPTURE2_ARM_LIB_INSTALL_TARGET_CMDS
+define FLYCAPTURE2_ARM_LIB_INSTALL_STAGING_CMDS
 	# Install libs
 	$(INSTALL) -m 0755 -D $(@D)/lib/libflycapture.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/; \
 	ln -sf libflycapture.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapture.so.2; \
@@ -48,12 +57,7 @@ define FLYCAPTURE2_ARM_LIB_INSTALL_TARGET_CMDS
 	ln -sf libflycapture-c.so.2 $(TARGET_DIR)/lib/libflycapture-c.so; \
 	$(INSTALL) -m 0755 -D $(@D)/lib/C/libflycapturegui-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/; \
 	ln -sf libflycapturegui-c.so.$(FLYCAPTURE2_LIB_VERSION) $(TARGET_DIR)/lib/libflycapturegui-c.so.2; \
-	ln -sf libflycapturegui-c.so.2 $(TARGET_DIR)/lib/libflycapturegui-c.so; \
-	# Create $HOME/$USER/snapshot folder
-	mkdir -p $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot;
-	# Install test program
-	$(INSTALL) -m 0755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/snapshot;
-	$(INSTALL) -m 0744 -D $(@D)/src/snapshot/readme.txt $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/readme.txt;
+	ln -sf libflycapturegui-c.so.2 $(TARGET_DIR)/lib/libflycapturegui-c.so;
 	# Create udev rules file
 	(\
 		echo "ATTRS{idVendor}==\"1e10\", ATTRS{idProduct}==\"2000\", MODE=\"0664\", GROUP=\"${GROUP_FLYCAPTURE2}\""; \

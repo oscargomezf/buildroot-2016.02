@@ -10,7 +10,7 @@ config BR2_PACKAGE_FLYCAPTURE2_ARM_LIB
           
 	  https://www.ptgrey.com/
 
-comment "flycapture2-arm-lib  needs an ARM EABIHF platform"
+comment "flycapture2-arm-lib needs an ARM EABIHF platform"
 	depends on !BR2_ARM_EABIHF
 
 if BR2_PACKAGE_FLYCAPTURE2_ARM_LIB

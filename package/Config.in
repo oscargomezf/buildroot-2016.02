@@ -330,6 +330,7 @@ menu "Tedesys"
         source "package/tedesys/tedgpio-lib/Config.in"
         source "package/tedesys/wiringpi/Config.in"
         source "package/tedesys/flycapture2-arm-lib/Config.in"
+        source "package/tedesys/samia-helper/Config.in"
 endmenu
 menu "Firmware"
 	source "package/am33x-cm3/Config.in"
