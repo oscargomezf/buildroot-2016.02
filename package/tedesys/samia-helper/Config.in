@@ -1,0 +1,10 @@
+config BR2_PACKAGE_SAMIA_HELPER
+	bool "samia-helper"
+	depends on BR2_PACKAGE_FLYCAPTURE2_ARM_LIB
+	help
+	  Helper to manage camera FL3-U3-13Y3M-C on SAMIA project
+
+	  https://www.tedesys.com/
+
+comment "samia-helper needs flycapture2-arm-lib package"
+	depends on !BR2_PACKAGE_FLYCAPTURE2_ARM_LIB
