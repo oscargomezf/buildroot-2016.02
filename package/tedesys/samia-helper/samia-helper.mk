@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SAMIA_HELPER_VERSION = 10
+SAMIA_HELPER_VERSION = 11
 SAMIA_HELPER_SITE = http://svn.tedesys.net/samia/trunk/scripts
 SAMIA_HELPER_SITE_METHOD = svn
 SAMIA_HELPER_INSTALL_STAGING = NO
