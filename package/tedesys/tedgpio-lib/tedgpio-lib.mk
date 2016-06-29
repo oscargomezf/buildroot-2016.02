@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-TEDGPIO_LIB_VERSION = 10
+TEDGPIO_LIB_VERSION = 11
 TEDGPIO_LIB_SITE = http://svn.tedesys.net/tedgpio-lib/trunk
 TEDGPIO_LIB_SITE_METHOD = svn
 TEDGPIO_LIB_INSTALL_STAGING = NO
