@@ -21,10 +21,10 @@ define FLYCAPTURE2_ARM_LIB_BUILD_CMDS
 	$(TARGET_MAKE_ENV) $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/src/snapshot all;
 endef
 define FLYCAPTURE2_ARM_LIB_INSTALL_TARGET_CMDS
-	# Create /home/$(USERNAME_FLYCAPTURE2)/snapshot folder
-        mkdir -p $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot;
         # Install snapshot program in /usr/sbin
         $(INSTALL) -m 4755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/usr/sbin/snapshot;
+	# Create /home/$(USERNAME_FLYCAPTURE2)/snapshot folder
+        #mkdir -p $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot;
         #$(INSTALL) -m 0755 -D $(@D)/bin/C/snapshot/snapshot $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/snapshot; \
         #$(INSTALL) -m 0744 -D $(@D)/src/snapshot/readme.txt $(TARGET_DIR)/home/$(USERNAME_FLYCAPTURE2)/snapshot/readme.txt;
 endef
