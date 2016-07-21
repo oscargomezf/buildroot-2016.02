@@ -4,10 +4,10 @@ Intro
 =====
 
 These instructions apply to all models of tedpi:
-	- tedpi-1b: based on raspberry pi B+ rev2.1 - Code: 0x000e.
-	- tedpi-cm: based on raspberry pi Compute module - Code: 0x0011.
-	- tedpi-2b: based on raspberry pi 2B - Code: 0xa01041.
-	- tedpi-3b  : raspberry pi 3 B v1.1 code: a02082"
+	- tedpi-1b:   based on raspberry pi B+ rev2.1 - Code: 0x000e.
+	- tedpi-cm:   based on raspberry pi Compute module - Code: 0x0011.
+	- tedpi-2b-*: based on raspberry pi 2B - Code: 0xa01041.
+	- tedpi-3b-*: based on raspberry pi 3 B v1.1 code: a02082"
 
 How to build it
 ===============
