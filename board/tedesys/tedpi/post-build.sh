@@ -4,7 +4,7 @@ case "${2}" in
 	"tedpi-1b")
 		TEDPI_MAC=B8:27:EB:59:EB:61
 		;;
-	"tedpi-2b"|"tedpi-2b-flea3")
+	"tedpi-2b"|"tedpi-2b-flea3"|"tedpi-2b-x")
 		TEDPI_MAC=B8:27:EB:59:EB:62
 		;;
 	"tedpi-3b"|"tedpi-3b-flea3")
@@ -45,35 +45,61 @@ done
 	echo "#${2}"; \
 	case "${2}" in
 		"tedpi-cm")
-			echo "force_turbo=1"
-			echo "arm_freq=700"
-			echo "core_freq=250"
+			echo "force_turbo=1"; \
+			echo "arm_freq=700"; \
+			echo "core_freq=250"; \
 			echo "device_tree=bcm2708-rpi-cm.dtb"; \
 			;;
 		"tedpi-1b")
-			echo "force_turbo=1"
-			echo "arm_freq=700"
-			echo "core_freq=250"
+			echo "force_turbo=1"; \
+			echo "arm_freq=700"; \
+			echo "core_freq=250"; \
 			echo "device_tree=bcm2708-rpi-b.dtb"; \
 			;;
-		"tedpi-2b"|"tedpi-2b-flea3")
-			echo "force_turbo=1"
-			echo "arm_freq=900"
-			echo "core_freq=250"
+               "tedpi-2b"|"tedpi-2b-flea3")
+                        echo "force_turbo=1"; \
+                        echo "arm_freq=900"; \
+                        echo "core_freq=250"; \
+                        echo "device_tree=bcm2709-rpi-2-b.dtb"; \
+                        echo "dtoverlay=tca6424a"; \
+                        ;;
+		"tedpi-2b-x")
+			echo "force_turbo=1"; \
+			echo "arm_freq=900"; \
+			echo "core_freq=250"; \
 			echo "device_tree=bcm2709-rpi-2-b.dtb"; \
 			echo "dtoverlay=tca6424a"; \
+			echo "# HDMI parameters"; \
+			echo "framebuffer_ignore_alpha=1"; \
+			echo "framebuffer_swap=1"; \
+			echo "disable_overscan=1"; \
+			echo "init_uart_clock=16000000"; \
+			echo "hdmi_group=2"; \
+			echo "hdmi_mode=1"; \
+			echo "hdmi_mode=87"; \
+			echo "hdmi_cvt=800 480 60 6 0 0 0"; \
+			echo "dtparam=spi=on"; \
+			echo "dtoverlay=ads7846,penirq=25,speed=10000,penirq_pull=2,xohms=150"; \
+			echo "hdmi_force_hotplug=1"; \
+			echo "config_hdmi_boost=4"; \
+			echo "overscan_left=0"; \
+			echo "overscan_right=0"; \
+			echo "overscan_top=0"; \
+			echo "overscan_bottom=0"; \
+			echo "disable_overscan=1"; \
+			echo "dtparam=spi=on"; \
 			;;
 		"tedpi-3b")
-			echo "force_turbo=1"
-			echo "arm_freq=1200"
-			echo "core_freq=250"
+			echo "force_turbo=1"; \
+			echo "arm_freq=1200"; \
+			echo "core_freq=250"; \
 			echo "device_tree=bcm2710-rpi-3-b.dtb"; \
 			echo "dtoverlay=pi3-disable-bt"; \
 			;;
 		"tedpi-3b-flea3")
-			echo "force_turbo=1"
-			echo "arm_freq=1200"
-			echo "core_freq=250"
+			echo "force_turbo=1"; \
+			echo "arm_freq=1200"; \
+			echo "core_freq=250"; \
 			echo "device_tree=bcm2710-rpi-3-b.dtb"; \
 			echo "dtoverlay=pi3-disable-bt"; \
 			echo "dtoverlay=tca6424a"; \
@@ -95,6 +121,9 @@ done
 			;;
 		"tedpi-1b"|"tedpi-2b"|"tedpi-3b")
 			echo "console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait smsc95xx.macaddr=${TEDPI_MAC}"; \
+			;;
+		"tedpi-2b-x")
+			echo "console=tty1 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait smsc95xx.macaddr=${TEDPI_MAC} usbcore.usbfs_memory_mb=256"; \
 			;;
 		"tedpi-2b-flea3"|"tedpi-3b-flea3")
 			echo "console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait smsc95xx.macaddr=${TEDPI_MAC} usbcore.usbfs_memory_mb=256"; \
@@ -141,14 +170,18 @@ if [ "$2" != "${2%"tedpi-3b"*}" ]; then
 	fi
 fi
 
-# Rebuild /etc/fstab
-grep -r "/dev/mmcblk0p1" ${TARGET_DIR}/etc/fstab 1> /dev/null
-if [ "$?" = "1" ]; then
-	(\
-		echo "/dev/mmcblk0p1  /boot           vfat    defaults        0       2"; \
-	) >> ${TARGET_DIR}/etc/fstab
-	mkdir -p ${TARGET_DIR}/boot
+# Rebuild /etc/inittab for HDMI console output
+if [ "$2" = "tedpi-2b-x" ]; then
+	# Add a console on tty1
+	grep -qE '^tty1::' ${TARGET_DIR}/etc/inittab || \
+	sed -i '/GENERIC_SERIAL/a tty1::respawn:/sbin/getty -L  tty1 0 vt100 # HDMI console' ${TARGET_DIR}/etc/inittab
 fi
+
+# Rebuild /etc/fstab
+grep -qE '^/dev/mmcblk0p1' ${TARGET_DIR}/etc/fstab || \
+sed -i '/sysfs/a /dev/mmcblk0p1  /boot           vfat    defaults        0       2 ' ${TARGET_DIR}/etc/fstab 
+mkdir -p ${TARGET_DIR}/boot
+#fi
 
 # Build /etc/modules
 (\

@@ -8,7 +8,7 @@ case "${2}" in
 	"tedpi-1b")
 		BOARD_NAME="tedpi-1b"
 		;;
-	"tedpi-2b"|"tedpi-2b-flea3")
+	"tedpi-2b"|"tedpi-2b-flea3"|"tedpi-2b-x")
 		BOARD_NAME="tedpi-2b"
 		;;
 	"tedpi-3b"|"tedpi-3b-flea3")
