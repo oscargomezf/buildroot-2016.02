@@ -18,7 +18,6 @@ for ovldtb in  ${PWD}/board/tedesys/tedpi/overlays/*.dtb; do
 	cp ${ovldtb} ${BINARIES_DIR}/rpi-firmware/overlays/ || exit 1;
 done
 
-
 # Rebuild config.txt file
 (\
 	echo "# Please note that this is only a sample, we recommend you to change it to fit"; \
@@ -156,22 +155,20 @@ if [ "$2" != "${2%"tedpi-3b"*}" ]; then
 	) > ${TARGET_DIR}/etc/wpa_supplicant/wpa_supplicant.conf
 
 	# Rebuild  /etc/network/interfaces
-	grep -r "wlan0" ${TARGET_DIR}/etc/network/interfaces 1> /dev/null
-	if [ "$?" = "1" ]; then
-		(\
-			echo "";\
-			echo "auto wlan0"; \
-			echo "iface wlan0 inet dhcp"; \
-			echo "        pre-up wpa_supplicant -B -Dwext -iwlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf"; \
-			echo "        post-down killall -q wpa_supplicant"; \
-			echo ""; \
-			echo "iface default inet dhcp"; \
-		) >> ${TARGET_DIR}/etc/network/interfaces
-	fi
+	grep -qE 'wlan0'  ${TARGET_DIR}/etc/network/interfaces || \
+	(\
+		echo "";\
+		echo "auto wlan0"; \
+		echo "iface wlan0 inet dhcp"; \
+		echo "        pre-up wpa_supplicant -B -Dwext -iwlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf"; \
+		echo "        post-down killall -q wpa_supplicant"; \
+		echo ""; \
+		echo "iface default inet dhcp"; \
+	) >> ${TARGET_DIR}/etc/network/interfaces
 fi
 
 # Rebuild /etc/inittab for HDMI console output
-if [ "$2" = "tedpi-2b-x" ]; then
+if [ "$2" != "${2%"tedpi"*"-x"}" ]; then
 	# Add a console on tty1
 	grep -qE '^tty1::' ${TARGET_DIR}/etc/inittab || \
 	sed -i '/GENERIC_SERIAL/a tty1::respawn:/sbin/getty -L  tty1 0 vt100 # HDMI console' ${TARGET_DIR}/etc/inittab
@@ -181,7 +178,6 @@ fi
 grep -qE '^/dev/mmcblk0p1' ${TARGET_DIR}/etc/fstab || \
 sed -i '/sysfs/a /dev/mmcblk0p1  /boot           vfat    defaults        0       2 ' ${TARGET_DIR}/etc/fstab 
 mkdir -p ${TARGET_DIR}/boot
-#fi
 
 # Build /etc/modules
 (\
