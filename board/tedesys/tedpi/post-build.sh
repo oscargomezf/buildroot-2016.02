@@ -67,7 +67,6 @@ done
 			echo "arm_freq=900"; \
 			echo "core_freq=250"; \
 			echo "device_tree=bcm2709-rpi-2-b.dtb"; \
-			echo "dtoverlay=tca6424a"; \
 			echo "# HDMI parameters"; \
 			echo "framebuffer_ignore_alpha=1"; \
 			echo "framebuffer_swap=1"; \
@@ -77,7 +76,6 @@ done
 			echo "hdmi_mode=1"; \
 			echo "hdmi_mode=87"; \
 			echo "hdmi_cvt=800 480 60 6 0 0 0"; \
-			echo "dtparam=spi=on"; \
 			echo "dtoverlay=ads7846,penirq=25,speed=10000,penirq_pull=2,xohms=150"; \
 			echo "hdmi_force_hotplug=1"; \
 			echo "config_hdmi_boost=4"; \
@@ -85,8 +83,6 @@ done
 			echo "overscan_right=0"; \
 			echo "overscan_top=0"; \
 			echo "overscan_bottom=0"; \
-			echo "disable_overscan=1"; \
-			echo "dtparam=spi=on"; \
 			;;
 		"tedpi-3b")
 			echo "force_turbo=1"; \
@@ -172,6 +168,18 @@ if [ "$2" != "${2%"tedpi"*"-x"}" ]; then
 	# Add a console on tty1
 	grep -qE '^tty1::' ${TARGET_DIR}/etc/inittab || \
 	sed -i '/GENERIC_SERIAL/a tty1::respawn:/sbin/getty -L  tty1 0 vt100 # HDMI console' ${TARGET_DIR}/etc/inittab
+	# create /etc/X11/xorg.conf.d/99-calibration.conf file
+	mkdir -p "${TARGET_DIR}/etc/X11/xorg.conf.d" 
+	(\
+	echo "Section \"InputClass\""; \
+	echo "	Identifier      \"calibration\""
+	echo "	MatchProduct    \"ADS7846 Touchscreen\""; \
+	echo "	Option  \"MinX\"  \"2512\""; \
+	echo "	Option  \"MaxX\"  \"63349\""; \
+	echo "	Option  \"MinY\"  \"2777\""; \
+	echo "	Option  \"MaxY\"  \"63030\""; \
+	echo "EndSection"; \
+	) > ${TARGET_DIR}/etc/X11/xorg.conf.d/99-calibration.conf
 fi
 
 # Rebuild /etc/fstab
