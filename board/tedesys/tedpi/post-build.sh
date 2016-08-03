@@ -119,7 +119,7 @@ done
 			;;
 		"tedpi-2b-x")
 			echo "console=tty1 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait smsc95xx.macaddr=${TEDPI_MAC} usbcore.usbfs_memory_mb=256"; \
-			;;
+				;;
 		"tedpi-2b-flea3"|"tedpi-3b-flea3")
 			echo "console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 elevator=deadline rootwait smsc95xx.macaddr=${TEDPI_MAC} usbcore.usbfs_memory_mb=256"; \
 			;;
@@ -180,6 +180,45 @@ if [ "$2" != "${2%"tedpi"*"-x"}" ]; then
 	echo "	Option  \"MaxY\"  \"63030\""; \
 	echo "EndSection"; \
 	) > ${TARGET_DIR}/etc/X11/xorg.conf.d/99-calibration.conf
+	# Build S51Xorg file
+	(\
+		echo "#!/bin/sh"; \
+		echo "#"; \
+		echo "# start Xorg server"; \
+		echo "#"; \
+		echo ""; \
+		echo "start() {"; \
+		echo "	printf \"Starting Xorg: \""; \
+		echo "	start-stop-daemon -b -S -q -m -p /var/run/xorg.pid --exec /usr/bin/Xorg -- -displayfd 0"; \
+		echo "	echo \"OK\""; \
+		echo "}"; \
+		echo ""; \
+		echo "stop() {"; \
+		echo "	printf \"Stopping Xorg: \""; \
+		echo "	start-stop-daemon -K -q -p /var/run/xorg.pid"; \
+		echo "	echo \"OK\""; \
+		echo "}"; \
+		echo "case \$1 in"; \
+		echo "	start)"; \
+		echo "		start"; \
+		echo "        ;;"; \
+		echo "	stop)"; \
+		echo "		stop"; \
+		echo "        ;;"; \
+		echo "	restart|reload)"; \
+		echo "        stop"; \
+		echo "        sleep 1"; \
+		echo "        start"; \
+		echo "        ;;"; \
+		echo "	*)"; \
+		echo "        echo \"Usage: \$0 {start|stop|restart}\""; \
+		echo "        exit 1"; \
+		echo "esac"; \
+		echo ""; \
+		echo "exit \$?"; \
+	) > ${TARGET_DIR}/etc/init.d/S51Xorg
+
+	chmod 755 ${TARGET_DIR}/etc/init.d/S51Xorg
 fi
 
 # Rebuild /etc/fstab
